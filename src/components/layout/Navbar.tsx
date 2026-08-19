@@ -1,7 +1,6 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -18,6 +17,8 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { ModeToggle } from "./ModeToggle";
+import Image from "next/image";
 
 interface MenuItem {
   title: string;
@@ -75,10 +76,12 @@ const Navbar = ({
           <div className="flex items-center gap-6">
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
-              <img
+              <Image
                 src={logo.src}
-                className="max-h-8 dark:invert"
+                width={32}
+                height={32}
                 alt={logo.alt}
+                className="h-8 w-auto dark:invert"
               />
               <span className="text-lg font-semibold tracking-tighter">
                 {logo.title}
@@ -93,6 +96,7 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
+            <ModeToggle />
             <Button variant="outline" size="sm" render={<a href={auth.login.url} />} nativeButton={false}>{auth.login.title}</Button>
             <Button size="sm" render={<a href={auth.signup.url} />} nativeButton={false}>{auth.signup.title}</Button>
           </div>
@@ -103,10 +107,12 @@ const Navbar = ({
           <div className="flex items-center justify-between">
             {/* Logo */}
             <a href={logo.url} className="flex items-center gap-2">
-              <img
+              <Image
                 src={logo.src}
-                className="max-h-8 dark:invert"
+                width={32}
+                height={32}
                 alt={logo.alt}
+                className="h-8 w-auto dark:invert"
               />
             </a>
             <Sheet>
@@ -115,24 +121,25 @@ const Navbar = ({
                 <SheetHeader>
                   <SheetTitle>
                     <a href={logo.url} className="flex items-center gap-2">
-                      <img
+                      <Image
                         src={logo.src}
-                        className="max-h-8 dark:invert"
+                        width={32}
+                        height={32}
                         alt={logo.alt}
+                        className="h-8 w-auto dark:invert"
                       />
                     </a>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    className="flex w-full flex-col gap-4"
-                  >
+
+                  <div className="flex w-full flex-col gap-4">
                     {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
+                  </div>
 
                   <div className="flex flex-col gap-3">
+                    <ModeToggle />
+
                     <Button
                       variant="outline"
                       size={"sm"}
@@ -161,13 +168,12 @@ const Navbar = ({
 const renderMenuItem = (item: MenuItem) => {
   return (
     <NavigationMenuItem key={item.title}>
-      <Link href={item.url} legacyBehavior passHref>
-        <NavigationMenuLink
-          className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
-        >
-          {item.title}
-        </NavigationMenuLink>
-      </Link>
+      <NavigationMenuLink
+        render={<Link href={item.url} />}
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
+      >
+        {item.title}
+      </NavigationMenuLink>
     </NavigationMenuItem>
   );
 };
