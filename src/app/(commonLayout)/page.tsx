@@ -1,11 +1,21 @@
-import { userService } from "@/services/user.service"
+import BlogCard from "@/components/modules/homepage/BlogCard";
+import { blogService } from "@/services/blog.service";
+import { BlogPost } from "@/types";
 
 export default async function Home() {
-  const { data, error } = await userService.getSession();
-  console.log({ data, error });
+  const { data } = await blogService.getBlogService({
+    isFeatured: false
+  },
+    {
+      cache: "no-store"
+    }
+  );
+
   return (
-    <div>
-      <h1>Home page</h1>
+    <div className="max-w-7xl mx-auto grid grid-cols-3 gap-5 px-4">
+      {data?.data?.map((post: BlogPost) => (
+        <BlogCard key={post.id} post={post} />
+      ))}
     </div>
   )
 }
