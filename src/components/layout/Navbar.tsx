@@ -98,8 +98,19 @@ const Navbar = ({
           </div>
           <div className="flex gap-2">
             <ModeToggle />
-            <Button variant="outline" size="sm" render={<a href={auth.login.url} />} nativeButton={false}>{auth.login.title}</Button>
-            <Button size="sm" render={<a href={auth.signup.url} />} nativeButton={false}>{auth.signup.title}</Button>
+            <Button
+              size="sm"
+              variant="outline"
+              render={<Link href={auth.login.url} />}
+              nativeButton={false}>
+              {auth.login.title}
+            </Button>
+            <Button
+              size="sm"
+              render={<Link href={auth.signup.url} />}
+              nativeButton={false}>
+              {auth.signup.title}
+            </Button>
           </div>
         </nav>
 
@@ -144,16 +155,18 @@ const Navbar = ({
                     <Button
                       variant="outline"
                       size={"sm"}
-                      nativeButton={false}
+                      nativeButton={true}
+                      render={<Link href={auth.login.url} />}
                     >
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
+                      {auth.login.title}
                     </Button>
 
                     <Button
                       size={"sm"}
-                      nativeButton={false}
+                      nativeButton={true}
+                      render={<Link href={auth.signup.url} />}
                     >
-                      <Link href={auth.signup.url} > {auth.signup.title}</Link>
+                      {auth.signup.title}
                     </Button>
                   </div>
                 </div>
