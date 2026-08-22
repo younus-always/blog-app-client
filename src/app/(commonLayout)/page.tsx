@@ -1,18 +1,21 @@
-import { cookies } from "next/headers";
+import BlogCard from "@/components/modules/homepage/BlogCard";
+import { blogService } from "@/services/blog.service";
+import { BlogPost } from "@/types";
 
 export default async function Home() {
-  const cookieStore = await cookies();
-  const res = await fetch("http://localhost:5000/api/auth/get-session", {
-    headers: {
-      Cookie: cookieStore.toString()
-    },
-    cache: "no-store"
-  });
-  const session = await res.json();
+  const { data } = await blogService.getBlogPosts({
+    isFeatured: false
+  },
+    {
+      cache: "no-store"
+    }
+  );
 
   return (
-    <div>
-      <h1>Home page</h1>
+    <div className="max-w-7xl mx-auto grid grid-cols-3 gap-5 px-4">
+      {data?.data?.map((post: BlogPost) => (
+        <BlogCard key={post.id} post={post} />
+      ))}
     </div>
   )
 }
