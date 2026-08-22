@@ -16,7 +16,10 @@ interface ServiceOptions {
 };
 
 export const blogService = {
-      getBlogService: async (params?: GetBlogsParams, options?: ServiceOptions) => {
+      getBlogPosts: async (
+            params?: GetBlogsParams,
+            options?: ServiceOptions,
+      ) => {
             try {
                   const url = new URL(`${API_URL}/posts`);
 
@@ -45,6 +48,17 @@ export const blogService = {
                   };
 
                   return { error: null };
+            } catch (err) {
+                  return { data: null, error: { message: "Something went wrong!" } }
+            }
+      },
+
+      getBlogById: async (id: string) => {
+            try {
+                  const res = await fetch(`${API_URL}/posts/${id}`);
+                  const data = await res.json();
+
+                  return { data, error: null };
             } catch (err) {
                   return { data: null, error: { message: "Something went wrong!" } }
             }
